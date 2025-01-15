@@ -1,0 +1,117 @@
+openapi: 3.0.3
+info:
+  title: Cryptocurrency exchange rate
+  version: 0.0.1
+paths:
+  /сurrency/add:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coin:
+                  type: string
+              required:
+                - coin
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad_resp'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad_resp'
+  /сurrency/remove:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coin:
+                  type: string
+              required:
+                - coin
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad_resp'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad_resp'
+  /currency/price:
+    post:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coin:
+                  type: string
+                timestamp:
+                  type: integer
+              required:
+                - coin
+                - timestamp
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/price_resp'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad_resp'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bad_resp'
+components:
+  schemas:
+    bad_resp:
+      type: object
+      properties:
+        status:
+          type: string
+          example: Error          
+        error:
+          type: string
+          example: 'failed to decode request'
+    price_resp:
+      type: object
+      properties:
+        status:
+          type: string
+          example: OK          
+        price:
+          type: string
+          example: '0.358975733996173'
+    

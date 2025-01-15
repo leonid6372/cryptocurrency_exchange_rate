@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  crypto_ex_rate:
+    build: ./
+    ports:
+    - 0.0.0.0:8085:8085
+    depends_on:
+      crypto_ex_rate_db:
+        condition: service_healthy
+        restart: true
+    networks:
+      - myNet
+
+  crypto_ex_rate_db:
+    restart: always
+    image: postgres:latest
+    volumes:
+    - ./.database/postgres/data:/var/lib/postgresql/data
+    environment:
+      - PGPORT=5435
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_DB=cryptoExRateDB
+    ports:
+      - 5435:5435
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d cryptoExRateDB"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      - myNet
+
+networks:
+  myNet:
+    name: myNet
+    external: true
