@@ -13,6 +13,7 @@ import (
 
 var (
 	ErrCryptoIsNotMonitored = "cryptocurrency is not monitored"
+	ErrCryptoIsMonitored    = "cryptocurrency is monitored"
 )
 
 type CryptoExRate struct {
@@ -88,6 +89,11 @@ func (cer *CryptoExRate) AddCurrency(coin string) error {
 		return fmt.Errorf("%s: %w", op, err)
 	}
 
+	idx := slices.Index(cer.cryptoNames, coin)
+	if idx != -1 {
+		log.Error("failed to add cryptocurrency to monitoring", sl.Err(ErrCryptoIsMonitored))
+		return fmt.Errorf("%s: %s", op, ErrCryptoIsMonitored)
+	}
 	cer.cryptoNames = append(cer.cryptoNames, coin)
 
 	return nil
