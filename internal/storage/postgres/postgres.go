@@ -14,7 +14,7 @@ import (
 
 const (
 	qrCreateCryptoExRate = `INSERT INTO crypto_exchange_rate(crypto, exchange_rate, date) VALUES ($1, $2, CURRENT_TIMESTAMP);`
-	qrCryptoExRate       = `SELECT exchange_rate FROM crypto_exchange_rate WHERE crypto = $1 AND date < $2 ORDER BY date DESC LIMIT 1;`
+	qrCryptoExRate       = `SELECT exchange_rate FROM crypto_exchange_rate WHERE crypto = $1 AND date <= $2 ORDER BY date DESC LIMIT 1;`
 )
 
 type Storage struct {
